@@ -1,0 +1,16 @@
+{
+  "name": "code_in_perl_like_a_nodejs_dev_talk",
+  "version": "0.1.0",
+  "description": "Code for the Promises in Perl talk",
+  "main": "index.js",
+  "repository": {
+    "url": "https://github.com/loic-prieto/code_in_perl_like_a_nodejs_dev_talk.git",
+    "type": "git"
+  },
+  "author": "Loïc Prieto",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.75.0",
+    "request-promise": "^4.1.1"
+  }
+}
