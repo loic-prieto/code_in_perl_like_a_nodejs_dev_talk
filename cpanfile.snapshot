@@ -57,14 +57,6 @@ DISTRIBUTIONS
       AnyEvent 5.33
       ExtUtils::MakeMaker 0
       common::sense 3.3
-  AnyEvent-Promises-0.06
-    pathname: D/DA/DANIELR/AnyEvent-Promises-0.06.tar.gz
-    provides:
-      AnyEvent::Promises 0.06
-      AnyEvent::Promises::Deferred 0.06
-    requirements:
-      AnyEvent 0
-      ExtUtils::MakeMaker 6.30
   Canary-Stability-2012
     pathname: M/ML/MLEHMANN/Canary-Stability-2012.tar.gz
     provides:

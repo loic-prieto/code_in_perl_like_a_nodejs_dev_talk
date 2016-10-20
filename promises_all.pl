@@ -1,5 +1,7 @@
 #!/usr/bin/env perl
 
+use FindBin qw($Bin);
+use lib "$Bin/local/lib/perl5";
 use Promises qw(deferred collect);
 use AnyEvent;
 use AnyEvent::Util qw(fork_call);
