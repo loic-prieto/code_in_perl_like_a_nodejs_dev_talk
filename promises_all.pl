@@ -1,11 +1,8 @@
 #!/usr/bin/env perl
 
-use FindBin qw($Bin);
-use lib "$Bin/local/lib/perl5";
 use Promises qw(deferred collect);
 use AnyEvent;
 use AnyEvent::Util qw(fork_call);
-use Data::Dumper;
 
 sub do_something_async {
 	my $param = shift;
@@ -25,7 +22,7 @@ collect(
 	do_something_async(1),
 	do_something_async(2),
 	do_something_async(3),
-	do_something_async(4),
+	do_something_async(4)
 )
 ->then(sub{
 	foreach my $result (@_) {
