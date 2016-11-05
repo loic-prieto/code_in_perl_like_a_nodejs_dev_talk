@@ -25,10 +25,16 @@
 					<p>Magic player</p>
 					<aside class="notes">
 						- Developer for 9 years
+
 						- "Enterprise"
+
 						- Mainly Java and webdev
+
 						- Recent perl user (3 months)
+
 						- Went to the YAPC in Romania
+
+						- About the talk
 					</aside>
 				</section>
 			</section>
@@ -50,6 +56,7 @@
 					<h2>Perl devs</h2>
 					<aside class="notes">
 						Talk about how we have many options to have the same things but that unlike nodejs dev, we must first know how they're implemented.
+
 						Talk about how I had to learn about it.
 					</aside>
 				</section>
@@ -59,10 +66,15 @@
 					<aside class="notes">
 						Talk about async programming:
 						- The paradigm: the bottleneck is not the code, but io.
+						
 						- ideal cases: event driven applications
-						- A browser
-						- an server that waits for requests
+							
+							- A browser
+						
+							- an server that waits for requests
+						
 						- Explain the paradigm
+						
 						- show pseudo code in next slide
 					</aside>
 				</section>
@@ -104,8 +116,8 @@ sub do_something_sync {
 }
 
 do_something_sync(1234);
-say "I finished doing the 'async' thing";
-say "This will be printed after the async thing has ended";
+say "I finished doing the 'sync' thing";
+say "This will be printed after the sync thing has ended";
 					</code></pre>
 					<aside class="notes">
 						For the previous example, there was no benefit whatsoever because
@@ -119,8 +131,6 @@ say "This will be printed after the async thing has ended";
 				<section id="async_example3">
 					<h1>Fetching url contents</h1>
 					<pre><code class="hljs">
-use HTTP::Library qw/get/;
-
 sub fetch_url {
 	my ($url) = @_;
 
@@ -145,9 +155,6 @@ for my $url (@urls) {
 				<section id="async_exampler4">
 					<h1>Fetching contents in parallel</h1>
 					<pre><code class="hljs">
-use HTTP::Library qw/get/;
-use Convenient::Thread::Library qw/run_in_thread/;
-
 my $print_sub = sub { say shift; }
 
 sub fetch_url {
@@ -199,7 +206,7 @@ for my $url (@urls) {
 						execution of nodejs. Libuv.
 					</aside>
 				</section>
-				<section id="event_loop_libuv" data-background="images/libuv.png">
+				<section id="event_loop_libuv" data-background-size="contain" data-background="images/libuv.png">
 					<aside class="notes">
 						Explain very briefly libuv. Used by node, but other languages too.
 					</aside>	
@@ -243,8 +250,6 @@ $exit_cv->recv;
 				<section id="event_loop_anyevent_example">
 					<h1>Fetching an url asynchronously</h1>
 					<pre><code class="hljs">
-use HTTP::Library qw/get/;
-use Convenient::Thread::Library qw/run_in_thread/;
 use AnyEvent;
 
 sub fetch_url {
@@ -302,7 +307,7 @@ $exit_cv->recv;
 					<aside class="notes">
 						We must program more logic to handle many callbacks
 						
-						It quicly becomes complicated and convoluted. There's a better way.
+						It quickly becomes complicated and convoluted. There's a better way.
 					</aside>
 				</section>
 			</section>
@@ -332,12 +337,10 @@ $exit_cv->recv;
 					<p>By Paul Evans</p>
 					<p>Far more powerful than Promises, but also more complex to use</p>
 				</section>
-				<section id="promises_alternatives" data-background="images/larry_wall_choose_most_readable.jpg">
-
+				<section id="promises_alternatives" data-background-size="contain" data-background="images/larry_wall_choose_most_readable.jpg">
 				</section>
 			</section>
-			<section id="outro" data-background="images/thats_all_folks.jpg">
-				
+			<section id="outro" data-background-size="contain" data-background="images/thats_all_folks.jpg">
 			</section>
 		</div>
 	</div>
