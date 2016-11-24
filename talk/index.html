@@ -1,238 +1,213 @@
 <html>
 <head>
-	<link rel="stylesheet" href="css/reveal.css">
-	<link rel="stylesheet" href="css/theme/white.css">
-	<link rel="stylesheet" href="lib/css/zenburn.css">
-	<meta charset="utf-8" /> 
-	<script src="lib/js/head.min.js"></script>
-	<script src="lib/js/classList.js"></script>
-	<script src="js/reveal.js"></script>   
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/white.css">
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+  <meta charset="utf-8" /> 
+  <script src="lib/js/head.min.js"></script>
+  <script src="lib/js/classList.js"></script>
+  <script src="js/reveal.js"></script>   
 </head>
 <body>
-	<div class="reveal">
-		<div class="slides">
-			<section id="project_meta">
-				<section id="project_meta_front">
-					<h1>Code in Perl like a NodeJS Dev</h1>
-					<p>by Loïc Prieto <small>Three months perl dev Extraordinaire</small></p>
-				</section>
+  <div class="reveal">
+    <div class="slides">
+      <section id="project_meta">
+        <section id="project_meta_front">
+          <h1>Promises and Async in Perl</h1>
+          <p>by Loïc Prieto <small>Four months perl dev Extraordinaire</small></p>
+        </section>
 
-				<section id="project_meta_author" data-background="images/ganstamtg_loic.jpg">
-					<h2>Who the heck am I?</h2>
-					<p>Loïc Prieto</p>
-					<p>Enterprise Dev</p>
-					<p>Cloud native Architect</p>
-					<p>Magic player</p>
-					<aside class="notes">
-						- Developer for 9 years
+        <section id="project_meta_author" data-background="images/ganstamtg_loic.jpg" style="color:white">
+          <h2 style="color:white">Who the heck am I?</h2>
+          <p>Loïc Prieto</p>
+          <p>Enterprise Dev</p>
+          <p>Cloud native Architect</p>
+          <p>Magic player</p>
+          <aside class="notes">
+            - Developer for 9 years
 
-						- "Enterprise"
+            - "Enterprise"
 
-						- Mainly Java and webdev
+            - Mainly Java and webdev
 
-						- Recent perl user (3 months)
+            - Recent perl user (3 months)
 
-						- Went to the YAPC in Romania
+            - Went to the YAPC in Romania
 
-						- About the talk
-					</aside>
-				</section>
-			</section>
-			<section id="async">
-				<section id="async_nodejsdevs" data-background-size="contain" data-background="images/nodejs_dev.jpeg">
-					<div class="fragment" style="float:right">
-						<p class="fragment">&nbsp;&nbsp;&nbsp;&nbsp;Async</p>
-						<p class="fragment">&nbsp;&nbsp;Mongo</p>
-						<p class="fragment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Webscale</p>
-						<p class="fragment">NodeJS</p>
-						<p class="fragment">&nbsp;&nbsp;Threadless</p>
-						<p class="fragment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starbucks</p>
-					</div>
-					<aside class="notes">
-						Talk about nodejs devs, how they use nodejs without knowing how async and nodejs really works. The hidden engine.
-					</aside>
-				</section>
-				<section id="async_perldevs" data-autoslide="off" data-background="images/perl_nerd.jpg">
-					<h2>Perl devs</h2>
-					<aside class="notes">
-						Talk about how we have many options to have the same things but that unlike nodejs dev, we must first know how they're implemented.
+            - About the talk
+          </aside>
+        </section>
+      </section>
+      <section id="async">
+        <section id="async_description">
+          <h1>What is Async</h1>
+          <h2>And why would I use it?</h2>
+          <aside class="notes">
+            Talk about async programming:
+            - The paradigm: the bottleneck is not the code, but io.
 
-						Talk about how I had to learn about it.
-					</aside>
-				</section>
-				<section id="async_description">
-					<h1>What is Async</h1>
-					<h2>And why would I use it?</h2>
-					<aside class="notes">
-						Talk about async programming:
-						- The paradigm: the bottleneck is not the code, but io.
-						
-						- ideal cases: event driven applications
-							
-							- A browser
-						
-							- an server that waits for requests
-						
-						- Explain the paradigm
-						
-						- show pseudo code in next slide
-					</aside>
-				</section>
-				<section id="async_example">
-					<h1>Doing something async...</h1>
-					<pre><code class="hljs">
+            - ideal cases: event driven applications
+
+            - A browser
+
+            - an server that waits for requests
+
+            - Explain the paradigm
+
+            - show pseudo code in next slide
+          </aside>
+        </section>
+        <section id="async_example">
+          <h3>Doing something async...</h3>
+          <pre><code class="hljs">
 sub do_something_async {
-	my ($param,$callback_sub) = @_;
+  my ($param,$callback_sub) = @_;
 
-	# Do something that takes some time
-	# [...]
-	# on work done call $callback_sub();
+  # Do something that takes some time 
+  # on a thread.
+  # [...]
+  # on work done call $callback_sub();
 
-	# We return *before* the work has been done
-	return "something";
+  # We return *before* the work has been done
+  return "something";
 }
 
 do_something_async(1234, sub { 
-	say "I finished doing the async thing";
+  say "I finished doing the async thing";
 });
 
 say "This will be printed before the async thing has ended";
-					</code></pre>
-					<aside class="notes">
-						This is just the style.
+          </code></pre>
+          <aside class="notes">
+            This is just the style.
 
-						The code is not correct, it is still synchronous. This is more of
-						a perlish pseudo code.
-					</aside>
-				</section>
-				<section id="async_example2">
-					<h1>Doing the same thing synchronously</h1>
-					<pre><code class="hljs">
+            The code is not correct, it is still synchronous. This is more of
+            a perlish pseudo code.
+          </aside>
+        </section>
+        <section id="async_example2">
+          <h3>Doing the same thing synchronously</h3>
+          <pre><code class="hljs">
 sub do_something_sync {
-	my ($param,$callback_sub) = @_;
+  my ($param,$callback_sub) = @_;
 
-	# Do something that takes some time
-	# [...]
+  # Do something that takes some time
+  # [...]
 }
 
 do_something_sync(1234);
 say "I finished doing the 'sync' thing";
 say "This will be printed after the sync thing has ended";
-					</code></pre>
-					<aside class="notes">
-						For the previous example, there was no benefit whatsoever because
-						it was a linear simple script. Nothing is gained by going async.
+          </code></pre>
+          <aside class="notes">
+            For the previous example, there was no benefit whatsoever because
+            it was a linear simple script. Nothing is gained by going async.
 
-						The next example will show how even in a simple script we can start
-						to gain some benefits by using async to perform more work in the same
-						amount of time.
-					</aside>
-				</section>
-				<section id="async_example3">
-					<h1>Fetching url contents</h1>
-					<pre><code class="hljs">
+            The next example will show how even in a simple script we can start
+            to gain some benefits by using async to perform more work in the same
+            amount of time.
+          </aside>
+        </section>
+        <section id="async_example3">
+          <h3>Fetching url contents synchronously</h3>
+          <pre><code class="hljs">
 sub fetch_url {
-	my ($url) = @_;
+  my ($url) = @_;
 
-	return get($url);
+  return get($url);
 }
 
 my @urls = ( 'www.google.es','reddit.com','stackoverflow.com','someother.site','etc');
 
 for my $url (@urls) {
-	say "Content of $url is: ".fetch_url($url);
+  say "Content of $url is: ".fetch_url($url);
 }
-					</code></pre>
-					<aside class="notes">
-						This is the traditional way to fetch website content. 
+          </code></pre>
+          <aside class="notes">
+            This is the traditional way to fetch website content. 
 
-						This script will scale on time execution linearly with each url.	
+            This script will scale on time execution linearly with each url.	
 
-						This is the perfect use case of asynchronous programming, because the io is what is
-						taking most of the time, not the code.
-					</aside>
-				</section>
-				<section id="async_exampler4">
-					<h1>Fetching contents in parallel</h1>
-					<pre><code class="hljs">
+            This is the perfect use case of asynchronous programming, because the io is what is
+            taking most of the time, not the code.
+          </aside>
+        </section>
+        <section id="async_exampler4">
+          <h3>Fetching contents in parallel</h3>
+          <pre><code class="hljs">
 my $print_sub = sub { say shift; }
 
 sub fetch_url {
-	my ($url,$content_handler) = @_;
+  my ($url,$content_handler) = @_;
 
-	run_in_thread(sub {
-		my $content = get($url);
-		$content_handler($content);
-	});
+  run_in_thread(sub {
+    my $content = get($url);
+    $content_handler($content);
+  });
 }
 
 my @urls = ( 'www.google.es','reddit.com','stackoverflow.com','someother.site','etc');
 
 for my $url (@urls) {
-	fetch_url($url,$print_sub);
+  fetch_url($url,$print_sub);
 }
-					</code></pre>
-					<aside class="notes">
-						The execution time is now roughly the slowest fetch from all of the urls to be fetched
-						since the contents are fetched in parallel.
+          </code></pre>
+          <aside class="notes">
+            The execution time is now roughly the slowest fetch from all of the urls to be fetched
+            since the contents are fetched in parallel.
 
-						This is the simplest example I could come with. But async programming really shines for
-						server scenarios, where we want to perform more work while waiting for other jobs to finish
-						
-						I've been lying.
-					</aside>
-				</section>
-				<section id="async_lying" data-background="images/lying_to_you.jpg">
-					<aside class="notes">
-						The code as it is, won't work. In NodeJS and if it was written in javascript it would work,
-						but there's a missing piece in perl. We're going back to the previous slide to see it.
+            This is the simplest example I could come with. But async programming really shines for
+            server scenarios, where we want to perform more work while waiting for other jobs to finish
 
-						Show that the results of the fetching will never be shown, because the script will have ended
-						by the time they come.
+            I've been lying.
+          </aside>
+        </section>
+        <section id="async_lying" data-background="images/lying_to_you.jpg">
+          <aside class="notes">
+            The code as it is, won't work. In NodeJS and if it was written in javascript it would work,
+            but there's a missing piece in perl. We're going back to the previous slide to see it.
 
-						Why would this work in nodejs but not on perl?
+            Show that the results of the fetching will never be shown, because the script will have ended
+            by the time they come.
 
-						We would need something to wait while the contents of the urls are fetched and that would execute
-						the callback code when the contents are fetched...that something is called an Event Loop.
-					</aside>
-				</section>
-			</section>
-			<section id="event_loop">
-				<section id="event_loop_the_event_loop" data-background="images/the_event_loop.png">
-					<aside class="notes">
-						Explain the event loop.
+            Why would this work in nodejs but not on perl?
 
-						This is what is behing the nodejs engine. An event loop is automatically started on each
-						execution of nodejs. Libuv.
-					</aside>
-				</section>
-				<section id="event_loop_libuv" data-background-size="contain" data-background="images/libuv.png">
-					<aside class="notes">
-						Explain very briefly libuv. Used by node, but other languages too.
-					</aside>	
-				</section>
-				<section id="event_loop_el_in_perl">
-					<h1>Event loops in perl</h1>
-					<ul>
-						<li>EV</li>
-						<li>Event</li>
-						<li>Glib</li>
-						<li>Tk</li>
-						<li>UV</li>
-						<li>Event::Lib</li>
-						<li>AnyEvent</li>
-						<li>O::Async</li>
-						<li>Many more...</li>
-					</ul>	
-					<aside class="notes">
-						We're going to use AnyEvent
-						
-						Also, they're incompatible between each other.
-					</aside>
-				</section>
-				<section id="event_loop_anyevent">
-					<h1>Basic AnyEvent structure loop</h1>
-					<pre><code class="hljs">
+            We would need something to wait while the contents of the urls are fetched and that would execute
+            the callback code when the contents are fetched...that something is called an Event Loop.
+          </aside>
+        </section>
+      </section>
+      <section id="event_loop">
+        <section id="event_loop_the_event_loop" data-background="images/the_event_loop.png">
+          <aside class="notes">
+            Explain the event loop.
+
+            This is what is behing the nodejs engine. An event loop is automatically started on each
+            execution of nodejs. Libuv.
+          </aside>
+        </section>
+        <section id="event_loop_el_in_perl">
+          <h1>Event loops in perl</h1>
+          <ul>
+            <li>EV</li>
+            <li>Event</li>
+            <li>Glib</li>
+            <li>Tk</li>
+            <li>UV</li>
+            <li>Event::Lib</li>
+            <li>AnyEvent</li>
+            <li>IO::Async</li>
+            <li>Many more...</li>
+          </ul>	
+          <aside class="notes">
+            We're going to use AnyEvent
+
+            Also, they're incompatible between each other.
+          </aside>
+        </section>
+        <section id="event_loop_anyevent">
+          <h3>Basic AnyEvent structure loop</h3>
+          <pre><code class="hljs">
 use AnyEvent;
 
 my $exit_cv = AnyEvent::condvar;
@@ -240,119 +215,122 @@ my $exit_cv = AnyEvent::condvar;
 # [ ... ]
 
 $exit_cv->recv;
-					</code></pre>
-					<aside class="notes">
-						Explain AnyEvent condition vars, the starter of the loops.
+          </code></pre>
+          <aside class="notes">
+            Explain AnyEvent condition vars, the starter of the loops.
 
-						Let's rework the previous async example with AnyEvent.
-					</aside>	
-				</section>
-				<section id="event_loop_anyevent_example">
-					<h1>Fetching an url asynchronously</h1>
-					<pre><code class="hljs">
+            Let's rework the previous async example with AnyEvent.
+          </aside>	
+        </section>
+        <section id="event_loop_anyevent_example">
+          <h3>Fetching an url asynchronously</h3>
+          <pre><code class="hljs">
 use AnyEvent;
 
 sub fetch_url {
-	my ($url,$content_handler) = @_;
+  my ($url,$content_handler) = @_;
 
-	run_in_thread(sub {
-		my $content = get($url);
-		$content_handler($content);
-	});
+  run_in_thread(sub {
+    my $content = get($url);
+    $content_handler($content);
+  });
 }
 my $exit_cv = AnyEvent::condvar;
 
 fetch_url($url,sub {
-	my $content = shift;
-	say "Content: $content";
-	$exit_cv->send;
+  my $content = shift;
+  say "Content: $content";
+  $exit_cv->send;
 });
 
 $exit_cv->recv;
 say "Program finished"; 
-					</code></pre>
-					<aside class="notes">
-						Explain the code.
+          </code></pre>
+          <aside class="notes">
+            Explain the code.
 
-						That's the basic way to work with callbacks.
-					</aside>
-				</section>	
-				<section id="event_loop_anyevent_example">
-					<h1>Fetching many url asynchronously</h1>
-					<pre><code class="hljs">
+            That's the basic way to work with callbacks.
+          </aside>
+        </section>	
+        <section id="event_loop_anyevent_example">
+          <h3>Fetching many url asynchronously</h3>
+          <pre><code class="hljs">
 my $fetch_count = 0;
 sub fetch_url {
-	my ($url,$content_handler) = @_;
+  my ($url,$content_handler) = @_;
 
-	run_in_thread(sub {
-		my $content = get($url);
-		$content_handler($content);
-	});
+  run_in_thread(sub {
+    my $content = get($url);
+    $content_handler($content);
+  });
 }
 my $exit_cv = AnyEvent::condvar;
 
 my @urls = ( 'www.google.es','reddit.com','stackoverflow.com','someother.site','etc');
 
 for my $url (@urls) {
-	fetch_url($url,{
-		my $content = shift;
-		say "Content: $content";
-		$fetch_count += 1;
-		$exit_cv->send if $fetch_count == 4;
-	});	
+  fetch_url($url,{
+    my $content = shift;
+    say "Content: $content";
+    $fetch_count += 1;
+    $exit_cv->send if $fetch_count == 4;
+  });	
 }
 
 $exit_cv->recv;
-					</code></pre>
-					<aside class="notes">
-						We must program more logic to handle many callbacks
-						
-						It quickly becomes complicated and convoluted. There's a better way.
-					</aside>
-				</section>
-			</section>
-			<section id="promises">
-				<section id="promises_intro" data-background="images/heavenly.jpg">
-					<h1>Promises</h1>
-					<aside class="notes">
-						Explain the background with javascript. A way to handle callbacks elegantly.
-					</aside>
-				</section>
-				<section id="promises_example">
-					<h1>Promises examples</h1>	
-					<aside class="notes">
-						Look at promises_with_el.pl and explain.
+          </code></pre>
+          <aside class="notes">
+            We must program more logic to handle many callbacks
 
-						Then show promises_all.pl and localized_promise.pl
-					</aside>
-				</section>
-				<section id="promises_alternatives" data-background="images/larry_wall_1.jpg">
-					<h1>TIMTOWTDI</h1>
-					<aside class="notes">
-						It wouldn't be perl if there weren't alternatives.
-					</aside>
-				</section>
-				<section id="promises_alternatives_futures">
-					<h1>Future</h1>
-					<p>By Paul Evans</p>
-					<p>Far more powerful than Promises, but also more complex to use</p>
-				</section>
-				<section id="promises_alternatives" data-background-size="contain" data-background="images/larry_wall_choose_most_readable.jpg">
-				</section>
-			</section>
-			<section id="outro" data-background-size="contain" data-background="images/thats_all_folks.jpg">
-			</section>
-		</div>
-	</div>
+            It quickly becomes complicated and convoluted. There's a better way.
+          </aside>
+        </section>
+      </section>
+      <section id="promises">
+        <section id="promises_intro" data-background="images/heavenly.jpg">
+          <h1>Promises</h1>
+          <aside class="notes">
+            Explain the background with javascript. A way to handle callbacks elegantly.
+          </aside>
+        </section>
+        <section id="promises_example">
+          <h1>Promises examples</h1>	
+          <aside class="notes">
+            Look at promises_with_el.pl and explain.
 
-	<script>
+            Then show promises_all.pl and localized_promise.pl
+          </aside>
+        </section>
+        <section id="promises_alternatives" data-background="images/larry_wall_1.jpg">
+          <h1>TIMTOWTDI</h1>
+          <aside class="notes">
+            It wouldn't be perl if there weren't alternatives.
+          </aside>
+        </section>
+        <section id="promises_alternatives_futures">
+          <h1>Future</h1>
+          <p>By Paul Evans</p>
+          <p>Far more powerful than Promises, but also more complex to use</p>
+          <aside class="notes">
+            Show futures.pl
+          </aside>
+        </section>
+        <section id="promises_alternatives" data-background-size="contain" data-background="images/larry_wall_choose_most_readable.jpg">
+        </section>
+      </section>
+      <section id="outro" data-background-size="contain" data-background="images/thats_all_folks.jpg">
+      </section>
+    </div>
+  </div>
+
+  <script>
 Reveal.initialize({
-	dependencies: [
-	{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-	{ src: 'plugin/zoom-js/zoom.js', async: true },
-	{ src: 'plugin/notes/notes.js', async: true }
-	]	
+  dependencies: [
+  { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+  { src: 'plugin/zoom-js/zoom.js', async: true },
+  { src: 'plugin/notes/notes.js', async: true }
+  ]	
 });
-	</script>
+  </script>
 </body>
 </html>
