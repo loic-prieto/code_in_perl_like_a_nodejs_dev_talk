@@ -74,6 +74,18 @@ DISTRIBUTIONS
       Sub::Install 0.921
       strict 0
       warnings 0
+  Future-0.34
+    pathname: P/PE/PEVANS/Future-0.34.tar.gz
+    provides:
+      Future 0.34
+      Future::Mutex 0.34
+      Future::Utils 0.34
+      Test::Future 0.34
+    requirements:
+      Carp 1.25
+      Test::Builder::Module 0
+      Time::HiRes 0
+      perl 5.008
   JSON-XS-3.02
     pathname: M/ML/MLEHMANN/JSON-XS-3.02.tar.gz
     provides:
